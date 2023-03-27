@@ -148,18 +148,25 @@ echo "<br>Location with mimimum consumption of milk is : " . $minL;
 // deleting the location with minimum sale of bread
 $minbread = PHP_INT_MAX;
 $minLBread = '';
+$sumbread = array(
+    'Kolkata' => 0,
+    'Delhi' => 0,
+    'Mumbai' => 0
+);
 // finding the location with minimum consumption of bread
 foreach ($products as $quarterkey => $quartervalue) {
-    $sumbread = 0;
     foreach ($quartervalue as $citykey => $cityvalue) {
         foreach ($cityvalue as $key => $value) {
-            $sumbread += $products[$quarterkey][$citykey]['bread'];
+            if($key == 'bread')
+                 $sumbread[$citykey] += $products[$quarterkey][$citykey]['bread'];
         }
     }
-    if ($sumbread < $minbread) {
-        $minLBread = $citykey;
+}
+foreach ($sumbread as $key => $value) {
+    if($value < $minbread){
+        $minLBread = $key;
+        $minbread = $value;
     }
-    $minbread = min($minbread, $sumbread);
 }
 // deleting the location from products array
 foreach ($products as $quarterkey => $quartervalue) {
